@@ -1,0 +1,14 @@
+Django
+django-environ
+mysql-connector-python<=8.0.26
+gunicorn
+djangorestframework
+markdown
+django-filter
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-gcp-trace
+opentelemetry-instrumentation-django
+opentelemetry-instrumentation-mysql
+google-python-cloud-debugger; sys_platform == 'linux' and platform_machine == 'x86_64'
+google-cloud-secret-manager
