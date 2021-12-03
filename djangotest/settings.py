@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import io
 import environ
+import google.auth
 from google.cloud import secretmanager
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,6 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 env = environ.Env(DEBUG=(bool, False))
+
+# Attempt to load the Project ID into the environment, safely failing on error.
+try:
+    _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
+except google.auth.exceptions.DefaultCredentialsError:
+    pass
+
 project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
 client = secretmanager.SecretManagerServiceClient()
 name = f"projects/{project_id}/secrets/django_settings/versions/latest"
@@ -37,7 +45,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'djangotest-xivga6reaa-oa.a.run.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
